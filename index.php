@@ -10,11 +10,39 @@
 
 <body>
 
-  <h1>Welkom</h1>
+  <div class="video-background">
+    <video id="bg-video" autoplay muted loop>
+      <source src="videos/homepage.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+      <audio id="bg-audio" loop>
+  <source src="audio/homepage.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  window.addEventListener('click', () => {
+    const video = document.getElementById('bg-video');
+    const audio = document.getElementById('bg-audio');
+
+    // Set volumes BEFORE playing
+    video.muted = false;
+    video.volume = 0.2; // Set video volume to 20%
+    audio.volume = 0.1; // Set audio volume to 10%
+
+    // Now play the audio
+    audio.play();
+  }, { once: true }); // Only run this on the first click
+</script>
+
+
+
+  <h1>Welcome to our escape room!</h1>
   <!-- De button hieronder is alleen voor testdoeleinden bij het opstarten van het project.
      Deze pagina is bedoeld voor de uitleg van jullie escape room. -->
 
-  <button><a href="room 1.php">Klik hier voor een demonstratie van kamer 1</a></button>
+  <button><a href="room 1.php">click here to start</a></button>
 
 </body>
 

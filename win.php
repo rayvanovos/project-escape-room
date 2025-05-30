@@ -20,11 +20,19 @@
   <source src="audio/win.mp3" type="audio/mpeg">
 </audio>
 
-  <script>
+<script>
   window.addEventListener('click', () => {
+    const video = document.getElementById('bg-video');
     const audio = document.getElementById('bg-audio');
+
+    // Set volumes BEFORE playing
+    video.muted = false;
+    video.volume = 0.2; // Set video volume to 20%
+    audio.volume = 0.1; // Set audio volume to 10%
+
+    // Now play the audio
     audio.play();
-  });
+  }, { once: true }); // Only run this on the first click
 </script>
 
 <h1>YOU WIN!!</h1>
