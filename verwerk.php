@@ -31,23 +31,41 @@ if ($actie === 'registratie') {
     $hash = password_hash($wachtwoord, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO gebruikers (gebruikersnaam, wachtwoord, email) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $gebruikersnaam, $hash, $email);
-    $stmt->execute();
-
-    header("Location: index.php?msg=Registratie geslaagd, je kunt nu inloggen.");
+    if ($stmt->execute()) {
+        header("Location: index.php?msg=Registratie geslaagd, je kunt nu inloggen.");
+    } else {
+        header("Location: index.php?msg=Registratie mislukt.");
+    }
     exit;
 }
 
 if ($actie === 'login') {
-    $stmt = $conn->prepare("SELECT wachtwoord FROM gebruikers WHERE gebruikersnaam = ?");
-    $stmt->bind_param("s", $gebruikersnaam);
+    // Sta inloggen toe met gebruikersnaam of e-mail
+    $stmt = $conn->prepare("SELECT gebruikersnaam, wachtwoord, email, Rol FROM gebruikers WHERE gebruikersnaam = ? OR email = ?");
+    $stmt->bind_param("ss", $gebruikersnaam, $gebruikersnaam);
     $stmt->execute();
-    $stmt->bind_result($hash);
-    if ($stmt->fetch() && password_verify($wachtwoord, $hash)) {
-        header("Location: codes/homepage.php?msg=Succesvol ingelogd!");
+    $stmt->bind_result($db_gebruikersnaam, $hash, $db_email, $rol);
+    if ($stmt->fetch()) {
+        $stmt->close();
+        if (password_verify($wachtwoord, $hash)) {
+            session_start();
+            $_SESSION['gebruikersnaam'] = $db_gebruikersnaam;
+            $_SESSION['email'] = $db_email;
+            $_SESSION['Rol'] = $rol;
+            if ($rol === 'admin') {
+                header("Location: codes/admin.php");
+            } else {
+                header("Location: codes/homepage.php?msg=Succesvol ingelogd!");
+            }
+            exit;
+        } else {
+            header("Location: index.php?msg=Ongeldige inloggegevens.");
+            exit;
+        }
     } else {
         header("Location: index.php?msg=Ongeldige inloggegevens.");
+        exit;
     }
-    exit;
 }
 
 $conn->close();
