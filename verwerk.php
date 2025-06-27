@@ -55,9 +55,10 @@ if ($actie === 'login') {
             if ($rol === 'admin') {
                 header("Location: codes/admin.php");
             } else {
-                header("Location: codes/homepage.php?msg=Succesvol ingelogd!");
+                header("Location: team_register.php?msg=Succesvol ingelogd!");
+                exit;
             }
-            exit;
+            
         } else {
             header("Location: index.php?msg=Ongeldige inloggegevens.");
             exit;

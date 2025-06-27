@@ -1,11 +1,12 @@
-<?php
+
 <?php
 session_start();
-if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
+if (!isset($_SESSION['Rol']) || $_SESSION['Rol'] !== 'admin') {
     header("Location: homepage.php");
     exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -17,5 +18,12 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     <h1>Welkom in het Admin Panel!</h1>
     <p>Alleen admins kunnen deze pagina zien.</p>
     <a href="homepage.php">Ga naar homepage</a>
+    <button onclick="homepage()">to homepage for players</button>
+
+    <script>
+      function homepage() {
+        window.location.href = 'homepage.php';
+      }
+    </script>
 </body>
 </html>
