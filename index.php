@@ -3,43 +3,42 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inloggen of Registreren</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Login or Register</title>
 </head>
 <body>
     <div class="container">
-        <h1>Welkom bij de Escape Room</h1>
+        <h1>Welcome to the Escape Room</h1>
 
-        <!-- Toon eventuele berichten uit de URL -->
+        <!-- Show any messages from the URL -->
         <?php
         if (isset($_GET['msg'])) {
             echo '<p style="color:white;">' . htmlspecialchars($_GET['msg']) . '</p>';
         }
         ?>
 
-        <!-- Inlogformulier -->
+        <!-- Login form -->
         <form id="login-form" action="verwerk.php" method="post">
             <input type="hidden" name="actie" value="login">
-            <input type="text" name="gebruikersnaam" placeholder="Gebruikersnaam of e-mail" required>
-            <input type="password" name="wachtwoord" placeholder="Wachtwoord" required>
-            <button type="submit">Inloggen</button>
+            <input type="text" name="gebruikersnaam" placeholder="Username or email" required>
+            <input type="password" name="wachtwoord" placeholder="Password" required>
+            <button type="submit">Login</button>
         </form>
 
-        <!-- Registratieformulier -->
+        <!-- Registration form -->
         <form id="register-form" action="verwerk.php" method="post" style="display:none;">
             <input type="hidden" name="actie" value="registratie">
-            <input type="text" name="gebruikersnaam" placeholder="Kies een gebruikersnaam" required>
-            <input type="email" name="email" placeholder="Voer je e-mailadres in" required>
-            <input type="password" name="wachtwoord" placeholder="Kies een wachtwoord" required>
-            <button type="submit">Registreren</button>
+            <input type="text" name="gebruikersnaam" placeholder="Choose a username" required>
+            <input type="email" name="email" placeholder="Enter your email address" required>
+            <input type="password" name="wachtwoord" placeholder="Choose a password" required>
+            <button type="submit">Register</button>
         </form>
 
-        <p id="login-link">Nog geen account? <a href="#" onclick="toggleForms('register')">Registreren</a></p>
-        <p id="register-link" style="display:none;">Al een account? <a href="#" onclick="toggleForms('login')">Inloggen</a></p>
+        <p id="login-link">No account yet? <a href="#" onclick="toggleForms('register')">Register</a></p>
+        <p id="register-link" style="display:none;">Already have an account? <a href="#" onclick="toggleForms('login')">Login</a></p>
     </div>
 
     <style>
@@ -48,6 +47,7 @@ session_start();
       text-align: center;
       background-image: url("images/login.avif");
       background-size: cover;
+      color: white;
     }
     #toggle-form,a{
       color: white;

@@ -7,7 +7,7 @@ $pass = '';
 $conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
-    die("Connectie mislukt: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 $actie = $_POST['actie'] ?? '';
@@ -16,31 +16,31 @@ $email = $_POST['email'] ?? '';
 $wachtwoord = $_POST['wachtwoord'] ?? '';
 
 if ($actie === 'registratie') {
-    // Check of gebruiker al bestaat
+    // Check if user already exists
     $stmt = $conn->prepare("SELECT id FROM gebruikers WHERE gebruikersnaam = ?");
     $stmt->bind_param("s", $gebruikersnaam);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        header("Location: index.php?msg=Gebruikersnaam bestaat al.");
+        header("Location: index.php?msg=Username already exists.");
         exit;
     }
 
-    // Wachtwoord hashen en gebruiker opslaan
+    // Hash password and save user
     $hash = password_hash($wachtwoord, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO gebruikers (gebruikersnaam, wachtwoord, email) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $gebruikersnaam, $hash, $email);
     if ($stmt->execute()) {
-        header("Location: index.php?msg=Registratie geslaagd, je kunt nu inloggen.");
+        header("Location: index.php?msg=Registration successful, you can now log in.");
     } else {
-        header("Location: index.php?msg=Registratie mislukt.");
+        header("Location: index.php?msg=Registration failed.");
     }
     exit;
 }
 
 if ($actie === 'login') {
-    // Sta inloggen toe met gebruikersnaam of e-mail
+    // Allow login with username or email
     $stmt = $conn->prepare("SELECT gebruikersnaam, wachtwoord, email, Rol FROM gebruikers WHERE gebruikersnaam = ? OR email = ?");
     $stmt->bind_param("ss", $gebruikersnaam, $gebruikersnaam);
     $stmt->execute();
@@ -55,15 +55,16 @@ if ($actie === 'login') {
             if ($rol === 'admin') {
                 header("Location: codes/admin.php");
             } else {
-                header("Location: codes/homepage.php?msg=Succesvol ingelogd!");
+                header("Location: team_register.php?msg=Successfully logged in!");
+                exit;
             }
-            exit;
+            
         } else {
-            header("Location: index.php?msg=Ongeldige inloggegevens.");
+            header("Location: index.php?msg=Invalid login credentials.");
             exit;
         }
     } else {
-        header("Location: index.php?msg=Ongeldige inloggegevens.");
+        header("Location: index.php?msg=Invalid login credentials.");
         exit;
     }
 }

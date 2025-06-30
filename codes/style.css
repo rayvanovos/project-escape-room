@@ -28,7 +28,7 @@ a {
   width: 100px;
   height: 100px;
   background-color: #3498db;
-  color: white;
+  color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,6 +67,7 @@ button {
   margin-top: 10px;
   padding: 5px 10px;
   cursor: pointer;
+  color: black ;
 }
 
 /* video background */
@@ -108,3 +109,12 @@ h2{
 .intro{
   font-size: x-large;
 }
+
+.checkmark {
+  display: block;
+  font-size: 2em;
+  color: green;
+  height: 1em;
+  margin-top: 0.5em;
+}
+
